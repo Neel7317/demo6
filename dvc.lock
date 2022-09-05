@@ -43,7 +43,7 @@ stages:
       size: 3878
     params:
       params.yaml:
-        random_forest.max_depth: 10
+        random_forest.max_depth: 20
         random_forest.n_estimators: 30
   log_production_model:
     cmd: python src/models/production_model_selection.py --config=params.yaml
@@ -53,9 +53,19 @@ stages:
       size: 1737
     params:
       params.yaml:
-        random_forest.max_depth: 10
+        random_forest.max_depth: 20
         random_forest.n_estimators: 30
     outs:
     - path: models/model.joblib
-      md5: 390a3d159364481f222a941ee470d41f
-      size: 653686
+      md5: 7017c082b4956062e9522c647ca29609
+      size: 1814632
+  model_monitor:
+    cmd: python src/models/model_monitor.py --config=params.yaml
+    deps:
+    - path: data/raw/train_new.csv
+      md5: dc73c86273dfc5c9170a94003ffeaa08
+      size: 27387
+    outs:
+    - path: reports/data_and_target_drift_dashboard.html
+      md5: bbe0344e5a0bd3052f85360e09a5b5ee
+      size: 3207783

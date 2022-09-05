@@ -35,3 +35,9 @@ stages:
     - random_forest.n_estimators
     outs:
     - models/model.joblib
+  model_monitor:
+    cmd: python src/models/model_monitor.py --config=params.yaml
+    deps:
+    - data/raw/train_new.csv
+    outs:
+    - reports/data_and_target_drift_dashboard.html
